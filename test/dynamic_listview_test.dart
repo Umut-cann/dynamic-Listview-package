@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:dynamic_listview/dynamic_listview.dart';
+import 'package:dynamic_list_view_widget/dynamic_list_view_widget.dart';
 
 void main() {
   group('ListController', () {

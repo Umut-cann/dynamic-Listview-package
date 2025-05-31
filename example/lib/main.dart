@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dynamic_listview/dynamic_listview.dart';
+import 'package:dynamic_list_view_widget/dynamic_list_view_widget.dart';
 
 void main() {
   runApp(const MyApp());

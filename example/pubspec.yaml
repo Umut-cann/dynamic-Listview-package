@@ -1,5 +1,5 @@
-name: dynamic_listview_example
-description: Example app for dynamic_listview package.
+name: dynamic_list_view_widget_example
+description: Example app for dynamic_list_view_widget package.
 publish_to: 'none'
 
 environment:
@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dynamic_listview:
+  dynamic_list_view_widget:
     path: ../
 
 dev_dependencies:
