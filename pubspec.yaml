@@ -1,8 +1,8 @@
 name: dynamic_list_view_widget  
 description: A customizable ListView with filtering, sorting, and infinite scroll support.
 version: 0.0.2
-homepage: https://github.com/umut-can/dynamic-Listview-package
-repository: https://github.com/umut-can/dynamic-Listview-package
+homepage: https://github.com/Umut-cann/dynamic-Listview-package
+repository: https://github.com/Umut-cann/dynamic-Listview-package
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
