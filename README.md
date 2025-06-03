@@ -14,7 +14,7 @@ A powerful and flexible ListView for Flutter with filtering, sorting, and infini
 
 ```yaml
 dependencies:
-  dynamic_list_view_widget: ^0.0.2
+  dynamic_list_view_widget: ^0.0.3
 ```
 
 ## Usage

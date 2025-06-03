@@ -1,3 +1,10 @@
+## 0.0.3
+
+* Performance improvements for filtering and sorting operations
+* Code formatting issues fixed
+* Improved documentation
+* Updated GitHub repository information
+
 ## 0.0.2
 
 * Fixed code formatting issues
