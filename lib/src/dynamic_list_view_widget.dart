@@ -30,7 +30,9 @@ class DynamicListView<T> extends StatefulWidget {
   final WidgetBuilder? emptyListBuilder;
 
   /// Optional builder function that returns a widget for error state.
-  final Widget Function(BuildContext context, Object error, VoidCallback retryCallback)? errorBuilder;
+  final Widget Function(
+          BuildContext context, Object error, VoidCallback retryCallback)?
+      errorBuilder;
 
   /// Optional builder function that returns a widget for bottom loading indicator.
   final WidgetBuilder? bottomLoadingBuilder;
@@ -65,7 +67,8 @@ class DynamicListView<T> extends StatefulWidget {
 
 class _DynamicListViewState<T> extends State<DynamicListView<T>> {
   final ScrollController _scrollController = ScrollController();
-  final GlobalKey<AnimatedListState> _animatedListKey = GlobalKey<AnimatedListState>();
+  final GlobalKey<AnimatedListState> _animatedListKey =
+      GlobalKey<AnimatedListState>();
   List<T> _displayedItems = [];
 
   @override
@@ -75,7 +78,10 @@ class _DynamicListViewState<T> extends State<DynamicListView<T>> {
     _scrollController.addListener(_onScroll);
     _syncDisplayedItemsWithController(isInitialSync: true);
     // Initial data load trigger
-    if (widget.controller.filteredItems.isEmpty && widget.controller.hasMore && !widget.controller.isLoading && !widget.controller.hasError) {
+    if (widget.controller.filteredItems.isEmpty &&
+        widget.controller.hasMore &&
+        !widget.controller.isLoading &&
+        !widget.controller.hasError) {
       widget.controller.loadMore();
     }
   }
@@ -86,8 +92,12 @@ class _DynamicListViewState<T> extends State<DynamicListView<T>> {
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller.removeListener(_onControllerUpdate);
       widget.controller.addListener(_onControllerUpdate);
-      _syncDisplayedItemsWithController(isInitialSync: true); // Treat as an initial sync for new controller
-      if (widget.controller.filteredItems.isEmpty && widget.controller.hasMore && !widget.controller.isLoading && !widget.controller.hasError) {
+      _syncDisplayedItemsWithController(
+          isInitialSync: true); // Treat as an initial sync for new controller
+      if (widget.controller.filteredItems.isEmpty &&
+          widget.controller.hasMore &&
+          !widget.controller.isLoading &&
+          !widget.controller.hasError) {
         widget.controller.loadMore();
       }
     }
@@ -111,7 +121,7 @@ class _DynamicListViewState<T> extends State<DynamicListView<T>> {
 
   void _syncDisplayedItemsWithController({bool isInitialSync = false}) {
     final newControllerItems = widget.controller.filteredItems;
-    
+
     // If it's an initial sync (e.g. initState or new controller), clear and add all.
     if (isInitialSync) {
       _displayedItems.clear();
@@ -133,7 +143,8 @@ class _DynamicListViewState<T> extends State<DynamicListView<T>> {
         _displayedItems.removeAt(i);
         _animatedListKey.currentState?.removeItem(
           i,
-          (context, animation) => _buildRemovedItem(context, currentItem, animation),
+          (context, animation) =>
+              _buildRemovedItem(context, currentItem, animation),
           duration: const Duration(milliseconds: 300),
         );
       }
@@ -142,16 +153,20 @@ class _DynamicListViewState<T> extends State<DynamicListView<T>> {
     // Additions/Updates (order might not be perfectly preserved for moves with this simple diff)
     for (int i = 0; i < newControllerItems.length; i++) {
       final T newItem = newControllerItems[i];
-      if (i >= _displayedItems.length) { // Add to end
+      if (i >= _displayedItems.length) {
+        // Add to end
         _displayedItems.add(newItem);
-        _animatedListKey.currentState?.insertItem(_displayedItems.length - 1, duration: const Duration(milliseconds: 500));
+        _animatedListKey.currentState?.insertItem(_displayedItems.length - 1,
+            duration: const Duration(milliseconds: 500));
       } else if (_displayedItems[i] != newItem) {
         // If item at index is different, check if newItem exists elsewhere (potential move)
         // or if it's a new item to be inserted.
-        if (!_displayedItems.contains(newItem)) { // New item to insert
+        if (!_displayedItems.contains(newItem)) {
+          // New item to insert
           _displayedItems.insert(i, newItem);
-          _animatedListKey.currentState?.insertItem(i, duration: const Duration(milliseconds: 500));
-        } else { 
+          _animatedListKey.currentState
+              ?.insertItem(i, duration: const Duration(milliseconds: 500));
+        } else {
           // Item exists, but order changed. This simple diff doesn't handle moves well.
           // For now, we'll update the item at the current position if it's different.
           // This might not be visually perfect for reorders.
@@ -162,22 +177,25 @@ class _DynamicListViewState<T> extends State<DynamicListView<T>> {
     }
     // Ensure length consistency if controller list shrank and items were not explicitly removed above
     if (_displayedItems.length > newControllerItems.length) {
-        _displayedItems.length = newControllerItems.length;
+      _displayedItems.length = newControllerItems.length;
     }
 
     setState(() {});
   }
-  
+
   void _onScroll() {
     if (!widget.controller.isLoading &&
         widget.controller.hasMore &&
         _scrollController.hasClients &&
-        _scrollController.position.pixels >= _scrollController.position.maxScrollExtent - widget.loadMoreThreshold) {
+        _scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent -
+                widget.loadMoreThreshold) {
       widget.controller.loadMore();
     }
   }
 
-  Widget _buildAnimatedItem(BuildContext context, int index, Animation<double> animation, T item) {
+  Widget _buildAnimatedItem(
+      BuildContext context, int index, Animation<double> animation, T item) {
     Widget content = widget.itemBuilder(context, item, index);
     return FadeTransition(
       opacity: animation,
@@ -188,12 +206,14 @@ class _DynamicListViewState<T> extends State<DynamicListView<T>> {
     );
   }
 
-  Widget _buildRemovedItem(BuildContext context, T item, Animation<double> animation) {
+  Widget _buildRemovedItem(
+      BuildContext context, T item, Animation<double> animation) {
     return FadeTransition(
       opacity: animation,
       child: SizeTransition(
         sizeFactor: CurvedAnimation(parent: animation, curve: Curves.easeOut),
-        child: widget.itemBuilder(context, item, -1), // Use a convention like -1 for removed item context
+        child: widget.itemBuilder(context, item,
+            -1), // Use a convention like -1 for removed item context
       ),
     );
   }
@@ -211,8 +231,10 @@ class _DynamicListViewState<T> extends State<DynamicListView<T>> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (widget.filterBuilder != null) widget.filterBuilder!(context) ?? const SizedBox.shrink(),
-            if (widget.sortBuilder != null) widget.sortBuilder!(context) ?? const SizedBox.shrink(),
+            if (widget.filterBuilder != null)
+              widget.filterBuilder!(context) ?? const SizedBox.shrink(),
+            if (widget.sortBuilder != null)
+              widget.sortBuilder!(context) ?? const SizedBox.shrink(),
           ],
         ),
       );
@@ -224,7 +246,7 @@ class _DynamicListViewState<T> extends State<DynamicListView<T>> {
       if (widget.errorBuilder != null) {
         mainContent = widget.errorBuilder!(context, controller.lastError!, () {
           controller.clearError();
-          controller.retryLoadMore(); 
+          controller.retryLoadMore();
         });
       } else {
         mainContent = Center(
@@ -233,12 +255,18 @@ class _DynamicListViewState<T> extends State<DynamicListView<T>> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Error: ${controller.lastError}', textAlign: TextAlign.center, style: effectiveTheme.primaryTextStyle ?? fallbackTheme.textTheme.titleMedium?.copyWith(color: Colors.red)),
+                Text('Error: ${controller.lastError}',
+                    textAlign: TextAlign.center,
+                    style: effectiveTheme.primaryTextStyle ??
+                        fallbackTheme.textTheme.titleMedium
+                            ?.copyWith(color: Colors.red)),
                 const SizedBox(height: 16),
-                ElevatedButton(onPressed: () {
-                  controller.clearError();
-                  controller.retryLoadMore();
-                }, child: const Text('Retry')),
+                ElevatedButton(
+                    onPressed: () {
+                      controller.clearError();
+                      controller.retryLoadMore();
+                    },
+                    child: const Text('Retry')),
               ],
             ),
           ),
@@ -248,27 +276,37 @@ class _DynamicListViewState<T> extends State<DynamicListView<T>> {
       if (widget.initialLoadingBuilder != null) {
         mainContent = widget.initialLoadingBuilder!(context);
       } else {
-        mainContent = Center(child: CircularProgressIndicator(color: effectiveTheme.loadingIndicatorColor ?? fallbackTheme.colorScheme.primary));
+        mainContent = Center(
+            child: CircularProgressIndicator(
+                color: effectiveTheme.loadingIndicatorColor ??
+                    fallbackTheme.colorScheme.primary));
       }
-    } else if (_displayedItems.isEmpty && !controller.isLoading) { // Check _displayedItems for emptiness after initial load attempt
+    } else if (_displayedItems.isEmpty && !controller.isLoading) {
+      // Check _displayedItems for emptiness after initial load attempt
       if (widget.emptyListBuilder != null) {
         mainContent = widget.emptyListBuilder!(context);
       } else {
-        mainContent = Center(child: Text('No items to display', style: effectiveTheme.primaryTextStyle ?? fallbackTheme.textTheme.titleMedium));
+        mainContent = Center(
+            child: Text('No items to display',
+                style: effectiveTheme.primaryTextStyle ??
+                    fallbackTheme.textTheme.titleMedium));
       }
     } else {
       mainContent = Expanded(
         child: RefreshIndicator(
           onRefresh: controller.refresh,
-          color: effectiveTheme.loadingIndicatorColor ?? fallbackTheme.colorScheme.primary,
-          backgroundColor: effectiveTheme.itemBackgroundColor ?? fallbackTheme.cardColor,
+          color: effectiveTheme.loadingIndicatorColor ??
+              fallbackTheme.colorScheme.primary,
+          backgroundColor:
+              effectiveTheme.itemBackgroundColor ?? fallbackTheme.cardColor,
           child: AnimatedList(
             key: _animatedListKey,
             controller: _scrollController,
-            padding: effectiveTheme.itemPadding, 
+            padding: effectiveTheme.itemPadding,
             initialItemCount: _displayedItems.length,
             itemBuilder: (context, index, animation) {
-              if (index >= _displayedItems.length) return const SizedBox.shrink(); // Safety check
+              if (index >= _displayedItems.length)
+                return const SizedBox.shrink(); // Safety check
               final item = _displayedItems[index];
               return _buildAnimatedItem(context, index, animation, item);
             },
@@ -278,24 +316,39 @@ class _DynamicListViewState<T> extends State<DynamicListView<T>> {
     }
 
     return Container(
-      color: effectiveTheme.backgroundColor ?? fallbackTheme.scaffoldBackgroundColor,
+      color: effectiveTheme.backgroundColor ??
+          fallbackTheme.scaffoldBackgroundColor,
       child: Column(
         children: [
           if (topControls != null) topControls,
-          if (mainContent is Expanded) mainContent else Expanded(child: mainContent),
-          if (controller.isLoading && _displayedItems.isNotEmpty && !controller.hasError)
+          if (mainContent is Expanded)
+            mainContent
+          else
+            Expanded(child: mainContent),
+          if (controller.isLoading &&
+              _displayedItems.isNotEmpty &&
+              !controller.hasError)
             Padding(
               padding: effectiveTheme.padding ?? const EdgeInsets.all(16.0),
-              child: widget.bottomLoadingBuilder != null 
-                  ? widget.bottomLoadingBuilder!(context) 
-                  : Center(child: CircularProgressIndicator(color: effectiveTheme.loadingIndicatorColor ?? fallbackTheme.colorScheme.primary)),
+              child: widget.bottomLoadingBuilder != null
+                  ? widget.bottomLoadingBuilder!(context)
+                  : Center(
+                      child: CircularProgressIndicator(
+                          color: effectiveTheme.loadingIndicatorColor ??
+                              fallbackTheme.colorScheme.primary)),
             ),
-          if (!controller.hasMore && !controller.isLoading && _displayedItems.isNotEmpty && !controller.hasError)
+          if (!controller.hasMore &&
+              !controller.isLoading &&
+              _displayedItems.isNotEmpty &&
+              !controller.hasError)
             Padding(
               padding: effectiveTheme.padding ?? const EdgeInsets.all(16.0),
-              child: widget.noMoreItemsBuilder != null 
-                  ? widget.noMoreItemsBuilder!(context) 
-                  : Center(child: Text('No more items', style: effectiveTheme.secondaryTextStyle ?? fallbackTheme.textTheme.bodySmall)),
+              child: widget.noMoreItemsBuilder != null
+                  ? widget.noMoreItemsBuilder!(context)
+                  : Center(
+                      child: Text('No more items',
+                          style: effectiveTheme.secondaryTextStyle ??
+                              fallbackTheme.textTheme.bodySmall)),
             ),
         ],
       ), // Close Column

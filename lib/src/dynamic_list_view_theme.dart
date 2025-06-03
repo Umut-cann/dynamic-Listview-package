@@ -52,7 +52,8 @@ class DynamicListViewTheme {
     return DynamicListViewTheme(
       backgroundColor: backgroundColor ?? this.backgroundColor,
       itemBackgroundColor: itemBackgroundColor ?? this.itemBackgroundColor,
-      loadingIndicatorColor: loadingIndicatorColor ?? this.loadingIndicatorColor,
+      loadingIndicatorColor:
+          loadingIndicatorColor ?? this.loadingIndicatorColor,
       primaryTextStyle: primaryTextStyle ?? this.primaryTextStyle,
       secondaryTextStyle: secondaryTextStyle ?? this.secondaryTextStyle,
       padding: padding ?? this.padding,
@@ -61,13 +62,18 @@ class DynamicListViewTheme {
   }
 
   /// Linearly interpolates between two [DynamicListViewTheme]s.
-  static DynamicListViewTheme lerp(DynamicListViewTheme? a, DynamicListViewTheme? b, double t) {
+  static DynamicListViewTheme lerp(
+      DynamicListViewTheme? a, DynamicListViewTheme? b, double t) {
     return DynamicListViewTheme(
       backgroundColor: Color.lerp(a?.backgroundColor, b?.backgroundColor, t),
-      itemBackgroundColor: Color.lerp(a?.itemBackgroundColor, b?.itemBackgroundColor, t),
-      loadingIndicatorColor: Color.lerp(a?.loadingIndicatorColor, b?.loadingIndicatorColor, t),
-      primaryTextStyle: TextStyle.lerp(a?.primaryTextStyle, b?.primaryTextStyle, t),
-      secondaryTextStyle: TextStyle.lerp(a?.secondaryTextStyle, b?.secondaryTextStyle, t),
+      itemBackgroundColor:
+          Color.lerp(a?.itemBackgroundColor, b?.itemBackgroundColor, t),
+      loadingIndicatorColor:
+          Color.lerp(a?.loadingIndicatorColor, b?.loadingIndicatorColor, t),
+      primaryTextStyle:
+          TextStyle.lerp(a?.primaryTextStyle, b?.primaryTextStyle, t),
+      secondaryTextStyle:
+          TextStyle.lerp(a?.secondaryTextStyle, b?.secondaryTextStyle, t),
       padding: EdgeInsetsGeometry.lerp(a?.padding, b?.padding, t),
       itemPadding: EdgeInsetsGeometry.lerp(a?.itemPadding, b?.itemPadding, t),
     );
@@ -96,7 +102,9 @@ class DynamicListViewThemeScope extends InheritedWidget {
   /// It's common to provide default styling or use `Theme.of(context)` as a fallback
   /// if the result is `null` or if specific theme properties are `null`.
   static DynamicListViewTheme? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<DynamicListViewThemeScope>()?.theme;
+    return context
+        .dependOnInheritedWidgetOfExactType<DynamicListViewThemeScope>()
+        ?.theme;
   }
 
   @override

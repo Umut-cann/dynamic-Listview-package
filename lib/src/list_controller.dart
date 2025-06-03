@@ -59,7 +59,7 @@ class ListController<T> with ChangeNotifier {
       filteredItems = [];
     }
     // Potentially call loadMore() here if you want an initial load without explicit call
-    // For example: if (filteredItems.isEmpty) loadMore(); 
+    // For example: if (filteredItems.isEmpty) loadMore();
     // However, usually the view triggers the first load.
   }
 
@@ -96,7 +96,8 @@ class ListController<T> with ChangeNotifier {
     _lastError = null; // Clear error on reset
     final oldItems = List<T>.from(filteredItems);
     filteredItems.clear();
-    if (!listEquals(oldItems, filteredItems)) { // Notify only if changed
+    if (!listEquals(oldItems, filteredItems)) {
+      // Notify only if changed
       notifyListeners();
     }
     await _loadNextPage(); // This will handle isLoading and further notifications
@@ -113,10 +114,10 @@ class ListController<T> with ChangeNotifier {
     try {
       final newItems =
           await loadMoreItems(_currentPage, filterOptions, sortOptions);
-      
+
       final int previousItemCount = filteredItems.length;
       filteredItems.addAll(newItems);
-      
+
       bool newItemsWereAdded = filteredItems.length > previousItemCount;
 
       if (newItems.isEmpty || !newItemsWereAdded) {
@@ -124,11 +125,13 @@ class ListController<T> with ChangeNotifier {
         // consider it as no more items only if it's not the very first page and no items were truly added.
         // A more robust check might involve checking if newItems.isEmpty explicitly from the source.
         if (_currentPage > 0 && !newItemsWereAdded && newItems.isEmpty) {
-             _hasMore = false;
-        } else if (newItems.isEmpty && _currentPage == 0 && filteredItems.isEmpty) {
-            _hasMore = false; // No items at all, even on first page
+          _hasMore = false;
+        } else if (newItems.isEmpty &&
+            _currentPage == 0 &&
+            filteredItems.isEmpty) {
+          _hasMore = false; // No items at all, even on first page
         } else if (newItems.isEmpty && filteredItems.isNotEmpty) {
-            _hasMore = false; // No new items returned, assume end of list
+          _hasMore = false; // No new items returned, assume end of list
         }
         // If newItems were added, even if the list was empty before, _hasMore should remain true until an empty list is explicitly returned by the source for a subsequent page.
       }
@@ -159,9 +162,10 @@ class ListController<T> with ChangeNotifier {
     // If _hasMore is false due to a previous successful empty load, retry might not be logical
     // unless the error state itself implies we should re-check _hasMore.
     // For simplicity, retry will attempt to load the current page again.
-    if (_lastError != null) { // Only retry if there was an error
-        // No need to decrement _currentPage as the failed attempt didn't advance it effectively.
-        await _loadNextPage(); 
+    if (_lastError != null) {
+      // Only retry if there was an error
+      // No need to decrement _currentPage as the failed attempt didn't advance it effectively.
+      await _loadNextPage();
     }
   }
 }
