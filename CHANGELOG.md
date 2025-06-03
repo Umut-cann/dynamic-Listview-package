@@ -1,3 +1,8 @@
+## 0.0.2
+
+* Fixed code formatting issues
+* Improved code quality
+
 ## 0.0.1
 
 * Initial release of dynamic_listview

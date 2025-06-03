@@ -1,4 +1,4 @@
-# dynamic_listview
+# dynamic_list_view_widget
 
 A powerful and flexible ListView for Flutter with filtering, sorting, and infinite scroll support.
 
@@ -8,12 +8,13 @@ A powerful and flexible ListView for Flutter with filtering, sorting, and infini
 - ↕️ Sorting – Ascending / Descending order by field
 - 🔁 Infinite Scrolling – Automatically load more items when scrolling
 - 🎨 Extensible Design – Use any widget for item layout, filtering, and sorting
+- ⚡ High Performance – Optimized for large datasets with minimal resource usage
 
 ## Installation
 
 ```yaml
 dependencies:
-  dynamic_listview: ^0.0.1
+  dynamic_list_view_widget: ^0.0.2
 ```
 
 ## Usage
@@ -21,6 +22,9 @@ dependencies:
 ### Basic Usage
 
 ```dart
+// Önce import edin
+import 'package:dynamic_list_view_widget/dynamic_list_view_widget.dart';
+
 final controller = ListController<String>(
   allItems: [],
   loadMoreItems: (page, filter, sort) async {
@@ -36,7 +40,7 @@ Widget build(BuildContext context) {
     appBar: AppBar(title: const Text('Dynamic ListView')),
     body: DynamicListView<String>(
       controller: controller,
-      itemBuilder: (context, item) => ListTile(title: Text(item)),
+      itemBuilder: (context, item, index) => ListTile(title: Text(item)),
       filterBuilder: (context) => Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
@@ -48,12 +52,14 @@ Widget build(BuildContext context) {
       ),
     ),
   );
-}
+)
 ```
 
 ### With Sorting
 
 ```dart
+import 'package:dynamic_list_view_widget/dynamic_list_view_widget.dart';
+
 final controller = ListController<User>(
   allItems: [],
   loadMoreItems: (page, filter, sort) async {
@@ -65,7 +71,7 @@ final controller = ListController<User>(
 
 DynamicListView<User>(
   controller: controller,
-  itemBuilder: (context, user) => UserListTile(user: user),
+  itemBuilder: (context, user, index) => UserListTile(user: user),
   sortBuilder: (context) => Row(
     children: [
       TextButton(

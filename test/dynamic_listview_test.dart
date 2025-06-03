@@ -31,7 +31,9 @@ void main() {
             return ['Apple', 'Banana', 'Cherry'];
           } else {
             return ['Apple', 'Banana', 'Cherry']
-                .where((item) => item.toLowerCase().contains(filter.searchQuery.toLowerCase()))
+                .where((item) => item
+                    .toLowerCase()
+                    .contains(filter.searchQuery.toLowerCase()))
                 .toList();
           }
         },

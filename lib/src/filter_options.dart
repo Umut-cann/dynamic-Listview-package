@@ -4,7 +4,7 @@ class FilterOptions {
   final String searchQuery;
 
   /// Creates a new instance of [FilterOptions].
-  /// 
+  ///
   /// The [searchQuery] defaults to an empty string if not provided.
   const FilterOptions({this.searchQuery = ''});
 

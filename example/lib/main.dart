@@ -30,15 +30,16 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
   }
-  
+
   @override
   void dispose() {
     _tabController.dispose();
@@ -81,7 +82,7 @@ class BasicExample extends StatefulWidget {
 
 class _BasicExampleState extends State<BasicExample> {
   late final ListController<String> controller;
-  
+
   @override
   void initState() {
     super.initState();
@@ -90,20 +91,17 @@ class _BasicExampleState extends State<BasicExample> {
       loadMoreItems: (page, filter, sort) async {
         // Simulate network delay
         await Future.delayed(const Duration(seconds: 1));
-        
+
         // Generate 20 items per page
-        final items = List.generate(
-          20, 
-          (index) => 'Item ${page * 20 + index + 1}'
-        );
-        
+        final items =
+            List.generate(20, (index) => 'Item ${page * 20 + index + 1}');
+
         // Apply filter if search query exists
-        final filtered = items.where(
-          (item) => item.toLowerCase().contains(
-            filter.searchQuery.toLowerCase()
-          )
-        ).toList();
-        
+        final filtered = items
+            .where((item) =>
+                item.toLowerCase().contains(filter.searchQuery.toLowerCase()))
+            .toList();
+
         return filtered;
       },
     );
@@ -113,7 +111,7 @@ class _BasicExampleState extends State<BasicExample> {
   Widget build(BuildContext context) {
     return DynamicListView<String>(
       controller: controller,
-      itemBuilder: (context, item) => ListTile(
+      itemBuilder: (context, item, index) => ListTile(
         leading: const CircleAvatar(child: Icon(Icons.list)),
         title: Text(item),
         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
@@ -160,28 +158,99 @@ class ProductsExample extends StatefulWidget {
 class _ProductsExampleState extends State<ProductsExample> {
   late final ListController<Product> controller;
   final List<Product> allProducts = [
-    const Product(name: 'Smartphone X', price: 999.99, category: 'Electronics', stockQuantity: 45),
-    const Product(name: 'Laptop Pro', price: 1299.99, category: 'Electronics', stockQuantity: 12),
-    const Product(name: 'Coffee Maker', price: 89.99, category: 'Home', stockQuantity: 30),
-    const Product(name: 'Headphones', price: 149.99, category: 'Electronics', stockQuantity: 200),
-    const Product(name: 'Bluetooth Speaker', price: 79.99, category: 'Electronics', stockQuantity: 75),
-    const Product(name: 'Desk Chair', price: 199.99, category: 'Furniture', stockQuantity: 8),
-    const Product(name: 'Smart Watch', price: 299.99, category: 'Electronics', stockQuantity: 50),
-    const Product(name: 'Desk Lamp', price: 39.99, category: 'Home', stockQuantity: 100),
-    const Product(name: 'Backpack', price: 49.99, category: 'Accessories', stockQuantity: 150),
-    const Product(name: 'Wireless Mouse', price: 29.99, category: 'Electronics', stockQuantity: 80),
-    const Product(name: 'Water Bottle', price: 19.99, category: 'Home', stockQuantity: 300),
-    const Product(name: 'Yoga Mat', price: 25.99, category: 'Sports', stockQuantity: 60),
-    const Product(name: 'External SSD', price: 89.99, category: 'Electronics', stockQuantity: 40),
-    const Product(name: 'Office Desk', price: 249.99, category: 'Furniture', stockQuantity: 5),
-    const Product(name: 'Toaster', price: 59.99, category: 'Home', stockQuantity: 70),
-    const Product(name: 'Digital Camera', price: 499.99, category: 'Electronics', stockQuantity: 25),
-    const Product(name: 'Running Shoes', price: 129.99, category: 'Sports', stockQuantity: 35),
-    const Product(name: 'Printer', price: 179.99, category: 'Electronics', stockQuantity: 15),
-    const Product(name: 'Throw Pillow', price: 19.99, category: 'Home', stockQuantity: 120),
-    const Product(name: 'Book Shelf', price: 149.99, category: 'Furniture', stockQuantity: 10),
+    const Product(
+        name: 'Smartphone X',
+        price: 999.99,
+        category: 'Electronics',
+        stockQuantity: 45),
+    const Product(
+        name: 'Laptop Pro',
+        price: 1299.99,
+        category: 'Electronics',
+        stockQuantity: 12),
+    const Product(
+        name: 'Coffee Maker',
+        price: 89.99,
+        category: 'Home',
+        stockQuantity: 30),
+    const Product(
+        name: 'Headphones',
+        price: 149.99,
+        category: 'Electronics',
+        stockQuantity: 200),
+    const Product(
+        name: 'Bluetooth Speaker',
+        price: 79.99,
+        category: 'Electronics',
+        stockQuantity: 75),
+    const Product(
+        name: 'Desk Chair',
+        price: 199.99,
+        category: 'Furniture',
+        stockQuantity: 8),
+    const Product(
+        name: 'Smart Watch',
+        price: 299.99,
+        category: 'Electronics',
+        stockQuantity: 50),
+    const Product(
+        name: 'Desk Lamp', price: 39.99, category: 'Home', stockQuantity: 100),
+    const Product(
+        name: 'Backpack',
+        price: 49.99,
+        category: 'Accessories',
+        stockQuantity: 150),
+    const Product(
+        name: 'Wireless Mouse',
+        price: 29.99,
+        category: 'Electronics',
+        stockQuantity: 80),
+    const Product(
+        name: 'Water Bottle',
+        price: 19.99,
+        category: 'Home',
+        stockQuantity: 300),
+    const Product(
+        name: 'Yoga Mat', price: 25.99, category: 'Sports', stockQuantity: 60),
+    const Product(
+        name: 'External SSD',
+        price: 89.99,
+        category: 'Electronics',
+        stockQuantity: 40),
+    const Product(
+        name: 'Office Desk',
+        price: 249.99,
+        category: 'Furniture',
+        stockQuantity: 5),
+    const Product(
+        name: 'Toaster', price: 59.99, category: 'Home', stockQuantity: 70),
+    const Product(
+        name: 'Digital Camera',
+        price: 499.99,
+        category: 'Electronics',
+        stockQuantity: 25),
+    const Product(
+        name: 'Running Shoes',
+        price: 129.99,
+        category: 'Sports',
+        stockQuantity: 35),
+    const Product(
+        name: 'Printer',
+        price: 179.99,
+        category: 'Electronics',
+        stockQuantity: 15),
+    const Product(
+        name: 'Throw Pillow',
+        price: 19.99,
+        category: 'Home',
+        stockQuantity: 120),
+    const Product(
+        name: 'Book Shelf',
+        price: 149.99,
+        category: 'Furniture',
+        stockQuantity: 10),
   ];
-  
+
   @override
   void initState() {
     super.initState();
@@ -190,32 +259,40 @@ class _ProductsExampleState extends State<ProductsExample> {
       loadMoreItems: (page, filter, sort) async {
         // Simulate network delay
         await Future.delayed(const Duration(milliseconds: 800));
-        
+
         // Paginate products (5 per page)
         final int startIndex = page * 5;
-        final int endIndex = (startIndex + 5) <= allProducts.length ? startIndex + 5 : allProducts.length;
-        
+        final int endIndex = (startIndex + 5) <= allProducts.length
+            ? startIndex + 5
+            : allProducts.length;
+
         // Return empty list if we're past the end
         if (startIndex >= allProducts.length) {
           return [];
         }
-        
+
         // Get page of products
-        List<Product> pageProducts = List.from(allProducts.sublist(startIndex, endIndex));
-        
+        List<Product> pageProducts =
+            List.from(allProducts.sublist(startIndex, endIndex));
+
         // Filter by search query if provided
         if (filter.searchQuery.isNotEmpty) {
-          pageProducts = pageProducts.where((product) => 
-            product.name.toLowerCase().contains(filter.searchQuery.toLowerCase()) ||
-            product.category.toLowerCase().contains(filter.searchQuery.toLowerCase())
-          ).toList();
+          pageProducts = pageProducts
+              .where((product) =>
+                  product.name
+                      .toLowerCase()
+                      .contains(filter.searchQuery.toLowerCase()) ||
+                  product.category
+                      .toLowerCase()
+                      .contains(filter.searchQuery.toLowerCase()))
+              .toList();
         }
-        
+
         // Apply sorting if provided
         if (sort != null) {
           pageProducts.sort((a, b) {
             int compareResult;
-            
+
             // Sort by the specified field
             switch (sort.field) {
               case 'name':
@@ -233,12 +310,14 @@ class _ProductsExampleState extends State<ProductsExample> {
               default:
                 compareResult = 0;
             }
-            
+
             // Apply sort order
-            return sort.order == SortOrder.ascending ? compareResult : -compareResult;
+            return sort.order == SortOrder.ascending
+                ? compareResult
+                : -compareResult;
           });
         }
-        
+
         return pageProducts;
       },
     );
@@ -248,14 +327,15 @@ class _ProductsExampleState extends State<ProductsExample> {
   Widget build(BuildContext context) {
     return DynamicListView<Product>(
       controller: controller,
-      itemBuilder: (context, product) => Card(
+      itemBuilder: (context, product, index) => Card(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(product.name, style: Theme.of(context).textTheme.titleMedium),
+              Text(product.name,
+                  style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -302,28 +382,31 @@ class _ProductsExampleState extends State<ProductsExample> {
       ),
     );
   }
-  
+
   Widget _buildSortButton(String label, String field) {
     final bool isActive = controller.sortOptions?.field == field;
-    final bool isAscending = controller.sortOptions?.order == SortOrder.ascending;
-    
+    final bool isAscending =
+        controller.sortOptions?.order == SortOrder.ascending;
+
     return Padding(
       padding: const EdgeInsets.only(right: 8.0),
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
-          backgroundColor: isActive ? Theme.of(context).colorScheme.primaryContainer : null,
+          backgroundColor:
+              isActive ? Theme.of(context).colorScheme.primaryContainer : null,
         ),
-        icon: isActive 
-          ? Icon(isAscending ? Icons.arrow_upward : Icons.arrow_downward, size: 16) 
-          : const SizedBox(width: 0),
+        icon: isActive
+            ? Icon(isAscending ? Icons.arrow_upward : Icons.arrow_downward,
+                size: 16)
+            : const SizedBox(width: 0),
         label: Text(label),
         onPressed: () {
           if (isActive) {
             // Toggle sort order if already selected
             controller.applySort(SortOptions(
-              field: field, 
-              order: isAscending ? SortOrder.descending : SortOrder.ascending
-            ));
+                field: field,
+                order:
+                    isAscending ? SortOrder.descending : SortOrder.ascending));
           } else {
             // Apply new sort
             controller.applySort(SortOptions(field: field));
@@ -361,9 +444,9 @@ class UsersExample extends StatefulWidget {
 class _UsersExampleState extends State<UsersExample> {
   late final ListController<User> controller;
   String roleFilter = 'All';
-  
+
   final List<String> roles = ['All', 'Admin', 'User', 'Editor', 'Viewer'];
-  
+
   // Generate a list of 100 sample users
   final List<User> allUsers = List.generate(
     100,
@@ -378,7 +461,7 @@ class _UsersExampleState extends State<UsersExample> {
       );
     },
   );
-  
+
   @override
   void initState() {
     super.initState();
@@ -387,37 +470,48 @@ class _UsersExampleState extends State<UsersExample> {
       loadMoreItems: (page, filter, sort) async {
         // Simulate network delay
         await Future.delayed(const Duration(milliseconds: 1200));
-        
+
         // Get a page of 10 users
         final int startIndex = page * 10;
-        final int endIndex = (startIndex + 10) <= allUsers.length ? startIndex + 10 : allUsers.length;
-        
+        final int endIndex = (startIndex + 10) <= allUsers.length
+            ? startIndex + 10
+            : allUsers.length;
+
         if (startIndex >= allUsers.length) {
           return [];
         }
-        
+
         // Get the page of users
-        List<User> pageUsers = List.from(allUsers.sublist(startIndex, endIndex));
-        
+        List<User> pageUsers =
+            List.from(allUsers.sublist(startIndex, endIndex));
+
         // Apply role filter if selected
         if (roleFilter != 'All') {
-          pageUsers = pageUsers.where((user) => user.role == roleFilter).toList();
+          pageUsers =
+              pageUsers.where((user) => user.role == roleFilter).toList();
         }
-        
+
         // Apply text search if provided
         if (filter.searchQuery.isNotEmpty) {
-          pageUsers = pageUsers.where((user) => 
-            user.name.toLowerCase().contains(filter.searchQuery.toLowerCase()) ||
-            user.email.toLowerCase().contains(filter.searchQuery.toLowerCase()) ||
-            user.id.toLowerCase().contains(filter.searchQuery.toLowerCase())
-          ).toList();
+          pageUsers = pageUsers
+              .where((user) =>
+                  user.name
+                      .toLowerCase()
+                      .contains(filter.searchQuery.toLowerCase()) ||
+                  user.email
+                      .toLowerCase()
+                      .contains(filter.searchQuery.toLowerCase()) ||
+                  user.id
+                      .toLowerCase()
+                      .contains(filter.searchQuery.toLowerCase()))
+              .toList();
         }
-        
+
         // Apply sorting if provided
         if (sort != null) {
           pageUsers.sort((a, b) {
             int compareResult;
-            
+
             switch (sort.field) {
               case 'name':
                 compareResult = a.name.compareTo(b.name);
@@ -434,11 +528,13 @@ class _UsersExampleState extends State<UsersExample> {
               default:
                 compareResult = 0;
             }
-            
-            return sort.order == SortOrder.ascending ? compareResult : -compareResult;
+
+            return sort.order == SortOrder.ascending
+                ? compareResult
+                : -compareResult;
           });
         }
-        
+
         return pageUsers;
       },
     );
@@ -455,30 +551,32 @@ class _UsersExampleState extends State<UsersExample> {
             height: 50,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: roles.map((role) => 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: FilterChip(
-                    selected: roleFilter == role,
-                    label: Text(role),
-                    onSelected: (selected) {
-                      setState(() {
-                        roleFilter = role;
-                        controller.refresh();
-                      });
-                    },
-                  ),
-                ),
-              ).toList(),
+              children: roles
+                  .map(
+                    (role) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: FilterChip(
+                        selected: roleFilter == role,
+                        label: Text(role),
+                        onSelected: (selected) {
+                          setState(() {
+                            roleFilter = role;
+                            controller.refresh();
+                          });
+                        },
+                      ),
+                    ),
+                  )
+                  .toList(),
             ),
           ),
         ),
-        
+
         // Dynamic ListView
         Expanded(
           child: DynamicListView<User>(
             controller: controller,
-            itemBuilder: (context, user) => ListTile(
+            itemBuilder: (context, user, index) => ListTile(
               leading: CircleAvatar(
                 child: Text(user.name.substring(0, 1)),
               ),
@@ -518,7 +616,7 @@ class _UsersExampleState extends State<UsersExample> {
       ],
     );
   }
-  
+
   Color _getRoleColor(String role) {
     switch (role) {
       case 'Admin':
@@ -533,25 +631,27 @@ class _UsersExampleState extends State<UsersExample> {
         return Colors.grey.shade100;
     }
   }
-  
+
   Widget _buildSortButton(String label, String field) {
     final bool isActive = controller.sortOptions?.field == field;
-    final bool isAscending = controller.sortOptions?.order == SortOrder.ascending;
-    
+    final bool isAscending =
+        controller.sortOptions?.order == SortOrder.ascending;
+
     return TextButton.icon(
       style: TextButton.styleFrom(
-        foregroundColor: isActive ? Theme.of(context).colorScheme.primary : null,
+        foregroundColor:
+            isActive ? Theme.of(context).colorScheme.primary : null,
       ),
-      icon: isActive 
-        ? Icon(isAscending ? Icons.arrow_upward : Icons.arrow_downward, size: 16) 
-        : const SizedBox(width: 0, height: 0),
+      icon: isActive
+          ? Icon(isAscending ? Icons.arrow_upward : Icons.arrow_downward,
+              size: 16)
+          : const SizedBox(width: 0, height: 0),
       label: Text(label),
       onPressed: () {
         if (isActive) {
           controller.applySort(SortOptions(
-            field: field, 
-            order: isAscending ? SortOrder.descending : SortOrder.ascending
-          ));
+              field: field,
+              order: isAscending ? SortOrder.descending : SortOrder.ascending));
         } else {
           controller.applySort(SortOptions(field: field));
         }

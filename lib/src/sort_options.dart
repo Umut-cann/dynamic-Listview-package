@@ -5,16 +5,16 @@ enum SortOrder { ascending, descending }
 class SortOptions {
   /// The field name to sort by.
   final String field;
-  
+
   /// The order to sort in (ascending or descending).
   final SortOrder order;
 
   /// Creates a new instance of [SortOptions].
-  /// 
+  ///
   /// The [field] parameter is required.
   /// The [order] defaults to [SortOrder.ascending] if not provided.
   const SortOptions({required this.field, this.order = SortOrder.ascending});
-  
+
   /// Creates a copy of this [SortOptions] with the specified parameters.
   SortOptions copyWith({
     String? field,
